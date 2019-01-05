@@ -44,7 +44,8 @@ features_raw[numerical] = scaler.fit_transform(data[numerical])
 
 # Show an example of a record with scaling applied
 #display(features_raw.head(n = 1))
-
+features_raw['capital-gain'] = features_raw['capital-gain']-features_raw['capital-loss']
+features_raw = features_raw.drop('capital-loss', axis = 1)
 # TODO: One-hot encode the 'features_raw' data using pandas.get_dummies()
 features = pd.get_dummies(features_raw)
 # TODO: Encode the 'income_raw' data to numerical values
@@ -209,8 +210,8 @@ vs.feature_plot(importances, X_train, y_train)
 from sklearn.base import clone
 
 # Reduce the feature space
-X_train_reduced = X_train[X_train.columns.values[(np.argsort(importances)[::-1])[:5]]]
-X_test_reduced = X_test[X_test.columns.values[(np.argsort(importances)[::-1])[:5]]]
+X_train_reduced = X_train[X_train.columns.values[(np.argsort(importances)[::-1])[:4]]]
+X_test_reduced = X_test[X_test.columns.values[(np.argsort(importances)[::-1])[:4]]]
 
 # Train on the "best" model found from grid search earlier
 clf = (clone(best_clf)).fit(X_train_reduced, y_train)
